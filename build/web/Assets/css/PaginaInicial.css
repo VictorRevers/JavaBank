@@ -1,0 +1,22 @@
+
+
+.card-form{
+    font-family: sans-serif;
+    text-align: center;
+    padding: 10px;
+    width: 97%;
+    color: white;
+    background-color: #e01c07;
+    border-radius: 10px;
+}
+
+.card-form input{
+    padding: 10px;
+    margin: 10px;
+}
+
+.card-form button{
+    cursor:pointer;
+    padding: 10px;
+    width: 100px;
+}

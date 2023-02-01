@@ -1,0 +1,111 @@
+.header {
+  font-family: sans-serif;
+  overflow: hidden;
+  background-color: #f1f1f1;
+  padding: 20px 10px;
+  margin-bottom: 20px;
+}
+
+.header a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px; 
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+.header a.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.header a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.header a.active {
+  background-color: #e01c07;
+  color: white;
+}
+
+.header-right {
+  float: right;
+}
+
+.card{
+    font-family: sans-serif;
+    text-align: center;
+    padding: 10px;
+    width: 98.5%;
+    color: white;
+    background-color: #e01c07;
+    border-radius: 10px;
+}
+
+#OpnFormTransferBtn{
+    background-color: whitesmoke;
+    cursor: pointer;
+    border: none;
+    color: #e01c07;
+    padding: 20px;
+}
+
+#OpnFormTransferBtn:hover{
+    background-color: #e01c07;
+    color: whitesmoke;
+    border:solid whitesmoke 1px;
+    transition: 1s;
+}
+
+.form-container{
+    font-family: sans-serif;
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+    width: 98.5%;
+    color: #e01c07;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    border: solid #e01c07 1px;
+}
+
+.form-container input{
+    padding: 10px;
+    border: solid #e01c07 1px;
+}
+
+.btn-subfm{
+    cursor: pointer;
+    padding: 20px;
+    color: #e01c07;
+    border: solid #e01c07 1px;
+    width: 100px;
+    margin-top: 10px;
+    border: solid #e01c07 1px;
+}
+
+.btn-subfm:hover{
+    background-color: #e01c07;
+    color: whitesmoke;
+    transition: 1s;
+}
+
+.btn-clsfm{
+    cursor:pointer;
+    position: relative;
+    color: #e01c07;
+    border: none;
+    left: 45vw;
+    background: none;
+}
+
+.btn-clsfm:hover{
+    color: black;
+    transition: 1s;
+}
+
+
