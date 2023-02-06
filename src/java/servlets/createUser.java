@@ -1,5 +1,7 @@
 package servlets;
 import classes.User;
+import banco_dados.*;
+
 
 import java.util.List;
 import java.util.ArrayList;
@@ -13,81 +15,97 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "createUser", urlPatterns = {"/createUser"})
 public class createUser extends HttpServlet {
-
-    int totalIds = 1;  
-    User dflUser = new User();
-    ArrayList<User> users = dflUser.usersDbInit();
-    
+        conexaoBancoDados db = new conexaoBancoDados();      
+        UserTbl userTbl = new UserTbl();
+        
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                int id = Integer.parseInt(request.getParameter("id"));
-                User user = new User();
+                boolean openConnection = db.openConnection();
                 
-                for(User u : users){
-                    if(u.id == id){
-                        user = u;
-                        break;
-                    }
+                if(openConnection){
+                    Integer id = Integer.parseInt(request.getParameter("id"));                                                            
+                    userTbl.configConnection(db.getConnection());
+                
+                    User user = userTbl.getUser(id);
+                    
+                    request.setAttribute("id", user.id);
+                    request.setAttribute("name", user.name);
+                    request.setAttribute("balance", user.balance);
+                                                            
+                    db.closeConnection();
+                    request.getRequestDispatcher("Home.jsp").forward(request, response);
+                }else{
+                    db.closeConnection();
+                    request.setAttribute("msg", "Ocorreu uma falha!");
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
                 }
                 
-                request.setAttribute("id", user.id);
-                request.setAttribute("name", user.name);
-                request.setAttribute("balance", user.balance);
-                
-                request.getRequestDispatcher("Home.jsp").forward(request, response);
     }
                       
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                                    
+                boolean openConnection = db.openConnection();                   
                 User user = new User();
-                user.cpf = "00000";
-                               
+                                               
                 int formOpt = Integer.parseInt(request.getParameter("formOpt"));
                 
                 //LOGIN
                 if(formOpt == 1){
-                    String cpf = request.getParameter("cpf");                   
-                    for(User u : users){
-                        if(u.cpf.equals(cpf)){
-                            user = u;
-                            break;
-                        }
-                    }
-                    if(!user.cpf.equals(cpf)){
-                        request.setAttribute("msg", "Usuário ou senha incorretos!");
-                        request.getRequestDispatcher("index.jsp").forward(request, response);
-                    }else{
-                        String password = request.getParameter("password");
-                        if(user.password.equals(password)){
-                            response.sendRedirect("createUser?id="+user.id);                            
-                        }else{
-                            request.setAttribute("msg", "Usuário ou senha incorretos!");
+                    String cpf = request.getParameter("cpf");
+                    String password = request.getParameter("password");                  
+                    
+                    if(openConnection){
+                        userTbl.configConnection(db.getConnection());
+                        
+                        Integer checkUser = userTbl.checkUser(cpf, password);
+                        
+                        if(checkUser != 0 && checkUser != -1){
+                            db.closeConnection();
+                            response.sendRedirect("createUser?id="+checkUser);                          
+                        }else if(checkUser == -1){
+                            db.closeConnection();
+                            request.setAttribute("msg", "Internal server error: 500!");
                             request.getRequestDispatcher("index.jsp").forward(request, response);
-                        }
-                    }                
+                        }else{
+                            db.closeConnection();
+                            request.setAttribute("msg", "Usuário ou senha incorretos!");
+                            request.getRequestDispatcher("index.jsp").forward(request, response);                     
+                        }                       
+                        
+                    }                                                  
                 }
-                
+                                              
                 //CADASTRO
-                if(formOpt == 2){
+                if(formOpt == 2){                                  
                     user.cpf = request.getParameter("cpf");
                     user.name = request.getParameter("name");
                     user.password = request.getParameter("password");
                     
-                    for(User u : users){
-                        if(u.cpf.equals(user.cpf)){
-                            request.setAttribute("msg", "Este CPF já foi cadastrado!");
+                               
+                   if(openConnection){
+                       userTbl.configConnection(db.getConnection());
+                       
+                       Integer checkUser = userTbl.checkUser(user.cpf, null);
+                       
+                       if(checkUser == 0){
+                           boolean insert =  userTbl.insertUser(user);
+                            if(insert){
+                               user.id = userTbl.checkUser(user.cpf, user.password);
+                                db.closeConnection();
+                                response.sendRedirect("createUser?id="+user.id);
+                            }else{
+                                db.closeConnection();
+                                request.setAttribute("msg", "Erro ao cadastrar!");                     
+                                request.getRequestDispatcher("index.jsp").forward(request, response);
+                            }
+                       }else{
+                            request.setAttribute("msg", "CPF já cadastrado!");                     
                             request.getRequestDispatcher("index.jsp").forward(request, response);
-                            break;
-                        }                                                 
-                    }
-                    user.id = totalIds;
-                    user.balance = 2000.00;                  
-                    users.add(user);
-                    totalIds++;
-                    response.sendRedirect("createUser?id="+user.id);
-                }                                                         
+                       }
+                   }
+                                                                                          
+                }                                                        
     }
 }
