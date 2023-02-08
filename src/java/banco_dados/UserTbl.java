@@ -79,6 +79,30 @@ public class UserTbl {
         }
     }
     
+    public Integer deposit(String cpf, double value){
+        try{
+            strComandoSQL = "SELECT * FROM users WHERE cpf="+cpf+"";
+            psComando = conBanco.prepareStatement(strComandoSQL);
+            rsRegistros = psComando.executeQuery();
+            
+            if(!rsRegistros.next()){
+                return 0;
+            }else{
+                //rsRegistros.next();
+                double balance = Double.parseDouble(rsRegistros.getString("balance"));
+                balance += value;
+                strComandoSQL = "UPDATE users SET balance="+balance+" WHERE cpf="+cpf+"";
+                psComando = conBanco.prepareStatement(strComandoSQL);
+                psComando.executeUpdate();
+                
+                return 1;
+            }
+        }catch(Exception e){
+            System.out.println("Erro: "+ e);
+            return -1;
+        }
+    }
+    
     
     
 }

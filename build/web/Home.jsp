@@ -14,7 +14,7 @@
                 <p>Olá, <%= request.getAttribute("name")%>!</p>               
                 <div class="header-right">
                     <a class="active" href=>Configurações</a>
-                    <a href="#sair">Sair</a>              
+                    <a href="/BankingTransfer">Sair</a>              
                 </div>
             </div>
         </header>

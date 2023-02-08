@@ -7,7 +7,12 @@
         <link rel="stylesheet" href="./Assets/css/PaginaInicial.css">
     </head>
     <body>
-        <!--<header><div><a href="./Home.jsp">CONTA SALDO</a></div></header>-->
+        <header>
+            <ul>               
+                <li class="title"><p>Área do Cliente</p></li>
+                <li><a href="/BankingTransfer/LoginAdmin.jsp">Sou Gerente</a></li>
+            </ul>
+        </header>
         <main>
             <div class="card-form">
                 <select id="selectForm" onchange="showForm()">               

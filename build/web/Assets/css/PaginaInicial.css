@@ -1,5 +1,3 @@
-
-
 .card-form{
     font-family: sans-serif;
     text-align: center;
@@ -19,4 +17,48 @@
     cursor:pointer;
     padding: 10px;
     width: 100px;
+}
+
+header{
+    display: inline;
+}
+
+ul {
+  font-family: sans-serif;
+  list-style-type: none;
+  margin: 10px;
+  padding: 0;
+  overflow: hidden;
+  background-color: whitesmoke;
+}
+
+li {
+    
+  padding: 10px;
+}
+
+li p{
+  float: left;
+  color: white;
+  background-color: #e01c07;
+  display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a {
+  float: right;
+  display: block;
+  color: #e01c07;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  cursor:pointer;
+}
+
+li a:hover {
+  background-color: #e01c07;
+  color: white;
+  transition: 1s;
 }
