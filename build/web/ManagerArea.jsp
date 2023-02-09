@@ -62,6 +62,7 @@
                 <form action="createUser" method="POST" id="cadastrar">
                     <!--CADASTRO DE CLIENTE-->
                     <input type="text" name="formOpt" value="2" hidden>
+                    <input type="text" name="manager" value="mngr" hidden>
                     <input type="text" name="name" placeholder="nome"><br>                  
                     <input type="text" name="cpf" placeholder="cpf"><br>
                     <input type="password" name="password" placeholder="senha"><br>
@@ -70,9 +71,9 @@
         </div>
          <div class="card-form" id="createManager" hidden>
             <h1>Cadastrar gerente:</h1>
-                <form action="createUser" method="POST" id="cadastrar">
+                <form action="manager" method="POST" id="cadastrar">
                     <!--CADASTRO DE GERENTE-->
-                    <input type="text" name="formOpt" value="2" hidden>
+                    <!--<input type="text" name="formOpt" value="2" hidden>-->
                     <input type="text" name="name" placeholder="nome"><br>                  
                     <input type="text" name="registration" placeholder="matricula"><br>
                     <input type="password" name="password" placeholder="senha"><br>

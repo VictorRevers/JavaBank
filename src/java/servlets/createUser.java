@@ -81,8 +81,7 @@ public class createUser extends HttpServlet {
                 if(formOpt == 2){                                  
                     user.cpf = request.getParameter("cpf");
                     user.name = request.getParameter("name");
-                    user.password = request.getParameter("password");
-                    
+                    user.password = request.getParameter("password");                                                      
                                
                    if(openConnection){
                        userTbl.configConnection(db.getConnection());
