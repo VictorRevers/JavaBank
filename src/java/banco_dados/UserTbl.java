@@ -103,6 +103,41 @@ public class UserTbl {
         }
     }
     
+    public boolean Transfer(User origin, Integer destination, double value){
+        try{
+            conexaoBancoDados db = new conexaoBancoDados();
+            boolean connectionOpen = db.openConnection();
+            UserTbl userTbl = new UserTbl();
+            User userDest = new User();
+            
+            if(connectionOpen){
+                 userTbl.configConnection(db.getConnection());   
+                 userDest = userTbl.getUser(destination);
+                 db.closeConnection();
+            }else{
+                return false;
+            }
+            
+            //User userOrg =  userTbl.getUser(origin);          
+            
+            double newOriginBalance = origin.balance - value;
+            double newDestBalance = userDest.balance + value;
+            strComandoSQL = "UPDATE users SET balance="+newOriginBalance+" WHERE id="+origin.id+";"                        
+                            +"UPDATE users SET balance="+newDestBalance+" WHERE id="+destination+";";
+            psComando = conBanco.prepareStatement(strComandoSQL);
+            psComando.executeLargeUpdate();
+           
+            
+            
+            return true;
+            
+        }catch(Exception e){
+            System.out.println("Erro "+ e);
+            return false;
+        }
+    
+    }
+    
     
     
 }

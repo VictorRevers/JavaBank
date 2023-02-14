@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="./Assets/css/managerArea.css">
-        <title>JSP Page</title>
+        <title>Área do Gerente</title>
     </head>
     <body>
         <header>

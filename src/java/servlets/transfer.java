@@ -1,5 +1,6 @@
 package servlets;
 
+import banco_dados.*;
 import classes.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,27 +33,47 @@ public class transfer extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-            User user = new User();
-            user.balance = 2000.00;
+            conexaoBancoDados db = new conexaoBancoDados();
+            UserTbl userTbl = new UserTbl();
+            boolean connectionOpen = db.openConnection();
             
             
-            String origin = request.getParameter("origin"); 
-            String destination = request.getParameter("acc");            
+            Integer origin = Integer.parseInt(request.getParameter("origin")); 
+            Integer destination = Integer.parseInt(request.getParameter("acc"));            
             double value = Double.parseDouble(request.getParameter("value"));
-                    
+            User user = new User();
+            
+            if(connectionOpen){
+                userTbl.configConnection(db.getConnection());
+                user = userTbl.getUser(origin);
+            }
+             
             
             if(value > user.balance){
                 request.setAttribute("neMoney", "Transferência cancelada! Saldo insuficiente!");
                 request.getRequestDispatcher("Home.jsp").forward(request, response);
             }else{
-                user.balance -= value;
-                request.setAttribute("balance", user.balance);
+                if(connectionOpen){
+                    userTbl.configConnection(db.getConnection());               
+                    boolean transfer = userTbl.Transfer(user, destination, value);
+                    
+                    if(transfer){
+                        db.closeConnection();
+                        user.balance -= value;
+                        response.sendRedirect("transfer?o="+origin+"&d="+destination+"&v="+value+"&b="+user.balance);                     
+                    }else{
+                        request.setAttribute("neMoney", "Transferência cancelada! Ocorreu uma falha!");
+                        request.getRequestDispatcher("Home.jsp").forward(request, response);
+                    }
+                }
+                
+                /*request.setAttribute("balance", user.balance);
                 request.setAttribute("origin", origin);
                 request.setAttribute("destination", destination);
-                request.setAttribute("value", value);
+                request.setAttribute("value", value);*/
                 
                 //request.getRequestDispatcher("TransferProof.jsp").forward(request, response); 
-                response.sendRedirect("transfer?o="+origin+"&d="+destination+"&v="+value+"&b="+user.balance);              
+                              
             } 
     }
 }
