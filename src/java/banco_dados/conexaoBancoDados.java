@@ -6,7 +6,7 @@ public class conexaoBancoDados {
     Connection conBanco;
     
     public boolean openConnection(){
-        String url = "jdbc:mysql://localhost:3306/bankdb?user=root&password=senhadb&useSSL=false&allowMultiQueries=true";
+        String url = "jdbc:mysql://localhost:3306/bankdb?user=root&password=senhadb&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true";
         
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");

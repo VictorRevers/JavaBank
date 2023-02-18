@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
 
 @WebServlet(name = "createUser", urlPatterns = {"/createUser"})
 public class createUser extends HttpServlet {
@@ -25,16 +27,33 @@ public class createUser extends HttpServlet {
                 
                 if(openConnection){
                     Integer id = Integer.parseInt(request.getParameter("id"));                                                            
-                    userTbl.configConnection(db.getConnection());
-                
+                    userTbl.configConnection(db.getConnection());                   
                     User user = userTbl.getUser(id);
+                    HttpSession session = request.getSession();
                     
-                    request.setAttribute("id", user.id);
-                    request.setAttribute("name", user.name);
-                    request.setAttribute("balance", user.balance);
-                                                            
+                    
+                    session.setAttribute("id", Integer.toString(user.id));
+                    //session.setAttribute("name", user.name);
+                    //session.setAttribute("balance", user.balance);                  
+                    session.setMaxInactiveInterval(30*60);
+                    
+                    Cookie userName = new Cookie("name",user.name);
+                    Cookie userBalance = new Cookie("balance", Double.toString(user.balance));
+                    userName.setMaxAge(30*60);
+                    userBalance.setMaxAge(30*60);
+                    response.addCookie(userName);
+                    response.addCookie(userBalance);
+                    
+                                                                                            
                     db.closeConnection();
-                    request.getRequestDispatcher("Home.jsp").forward(request, response);
+                    
+                    response.sendRedirect("Home.jsp");
+                    
+                    
+                    
+                            
+                   //request.getRequestDispatcher("Home.jsp").forward(request, response);
+                   
                 }else{
                     db.closeConnection();
                     request.setAttribute("msg", "Ocorreu uma falha!");

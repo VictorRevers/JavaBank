@@ -8,10 +8,38 @@
         
     </head>
     <body>
+        <%
+            String id = null;
+            
+            if(session.getAttribute("id")==null){
+                response.sendRedirect("index.jsp");
+            }else{
+                id = (String) session.getAttribute("id");
+            }
+            
+            String userName = null;
+            String userBalance = null;
+            String sessionID = null;
+            Cookie[] cookies = request.getCookies();
+            
+            if(cookies != null){
+                for(Cookie cookie : cookies){
+                    if(cookie.getName().equals("name")) userName = cookie.getValue();
+                    if(cookie.getName().equals("balance")) userBalance = cookie.getValue();
+                    if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();                  
+                }
+            }
+            
+            System.out.println("ID DA SESSÃO: "+ sessionID);
+            
+            
+            
+        %>
+        
         <header>
             <div class="header">
                 <a href="./index.jsp" class="logo">Bank</a>
-                <p>Olá, <%= request.getAttribute("name")%>!</p>               
+                <p>Olá, <%= userName%>!</p>               
                 <div class="header-right">
                     <a class="active" href=>Configurações</a>
                     <a href="/BankingTransfer">Sair</a>              
@@ -21,8 +49,8 @@
         
         <main>
             <div class="card">
-                <p>Número da conta: <%= request.getAttribute("id")%></p>
-                <h2 class="card-title">Saldo: R$ <%= request.getAttribute("balance")%></h2>
+                <p>Número da conta: <%=id%></p>
+                <h2 class="card-title">Saldo: R$ <%= userBalance%></h2>
                 <h4 class="card-title">Saldo mensal:</h4>
                 <p class="card-text">Recebido: R$ 800,00</p>
                 <p class="card-text">Transferido: R$ 900,00</p>
