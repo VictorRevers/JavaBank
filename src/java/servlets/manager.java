@@ -27,10 +27,25 @@ public class manager extends HttpServlet {
                 String registration = request.getParameter("reg");
                 String name = (String)request.getParameter("name");
                 
-                request.setAttribute("reg", registration);
-                request.setAttribute("name", name);
+                HttpSession session = request.getSession();
+                
+                
+                session.setAttribute("reg", registration);
+                
+                session.setAttribute("active", true);
+                session.setMaxInactiveInterval(30*60);
+                
+                Cookie mngrName = new Cookie("name", name);
+                Cookie mngrReg = new Cookie("reg", registration);
+                mngrName.setMaxAge(30*60);
+                mngrReg.setMaxAge(30*60);
+                response.addCookie(mngrName);
+                response.addCookie(mngrReg);                             
+                            
+                response.sendRedirect("ManagerArea.jsp");
+                
         
-                request.getRequestDispatcher("ManagerArea.jsp").forward(request, response);
+                //request.getRequestDispatcher("ManagerArea.jsp").forward(request, response);
     }
 
     @Override

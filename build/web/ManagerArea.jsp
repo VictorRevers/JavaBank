@@ -13,10 +13,34 @@
         <title>Área do Gerente</title>
     </head>
     <body>
+        <%
+            String name = null;
+            String registration = null;
+            String sessionID = null;
+            boolean active = false;
+            
+            if(session.getAttribute("reg") == null){
+                response.sendRedirect("LoginAdmin.jsp");
+            }else{             
+                registration = (String)session.getAttribute("reg");                
+            }
+            
+            Cookie[] cookies = request.getCookies();
+            
+            if(cookies != null){
+                for(Cookie cookie : cookies){
+                    if(cookie.getName().equals("name")) name = cookie.getValue();
+                    if(cookie.getName().equals("reg")) registration = cookie.getValue();
+                    if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
+                }                            
+                System.out.println("ID DA SESSÃO: "+ sessionID);
+            }
+            
+        %>
         <header>
             <ul>               
                 <li class="title"><p>Área do Gerente</p></li>
-                <li><p><%= request.getAttribute("name")%> - <%= request.getAttribute("reg") %></p></li>
+                <li><p><%= name%> - <%= registration %></p></li>
                 <li><a href="/BankingTransfer">Sair</a></li>
                 <li onclick="showDiv(6)"><a>Cadastrar Gerente</a></li> 
                 <li><a>Fechamento de Conta</a></li> 
