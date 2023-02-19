@@ -10,7 +10,7 @@
         <header>
             <ul>               
                 <li class="title"><p>Área do Cliente</p></li>
-                <li><a href="/BankingTransfer/LoginAdmin.jsp">Sou Gerente</a></li>
+                <li><a href="/BankingTransfer/LoginAdmin.jsp">Sou Gerente</a></li>               
             </ul>
         </header>
         <main>

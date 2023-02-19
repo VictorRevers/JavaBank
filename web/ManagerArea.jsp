@@ -16,7 +16,7 @@
         <header>
             <ul>               
                 <li class="title"><p>Área do Gerente</p></li>
-                <li><p>Funcionário - 00/000.000</p></li>
+                <li><p><%= request.getAttribute("name")%> - <%= request.getAttribute("reg") %></p></li>
                 <li><a href="/BankingTransfer">Sair</a></li>
                 <li onclick="showDiv(6)"><a>Cadastrar Gerente</a></li> 
                 <li><a>Fechamento de Conta</a></li> 

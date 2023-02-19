@@ -19,7 +19,8 @@
         
         <main>
             <div class="card-form">              
-                <form action="createUser" method="POST">                  
+                <form action="manager" method="POST">
+                    <input type="text" name="loginManager" value="log" hidden>
                     <input type="text" name="registration" placeholder="matricula"><br>
                     <input type="password" name="password" placeholder="senha"><br>
                     <% 
@@ -28,7 +29,7 @@
                         out.print("<p>"+msg+"</p>");                     
                     }                  
                     %>                  
-                    <button type="submit"><a href="/BankingTransfer/ManagerArea.jsp">Entrar</<a></a></button>
+                    <button type="submit">Entrar</button>
                 </form>
         </main>
     </body>
