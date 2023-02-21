@@ -24,27 +24,31 @@ public class manager extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                String registration = request.getParameter("reg");
-                String name = (String)request.getParameter("name");
-                
                 HttpSession session = request.getSession();
+                String sessionRegistration = (String)session.getAttribute("reg");
                 
+                if(sessionRegistration != null){
+                    response.sendRedirect("ManagerArea.jsp");
+                }else{
+                    String registration = request.getParameter("reg");
+                    String name = (String)request.getParameter("name");
+                                                  
                 
-                session.setAttribute("reg", registration);
+                    session.setAttribute("reg", registration);
                 
-                session.setAttribute("active", true);
-                session.setMaxInactiveInterval(30*60);
+                    session.setAttribute("active", true);
+                    session.setMaxInactiveInterval(30*60);
                 
-                Cookie mngrName = new Cookie("name", name);
-                Cookie mngrReg = new Cookie("reg", registration);
-                mngrName.setMaxAge(30*60);
-                mngrReg.setMaxAge(30*60);
-                response.addCookie(mngrName);
-                response.addCookie(mngrReg);                             
+                    Cookie mngrName = new Cookie("name", name);
+                    Cookie mngrReg = new Cookie("reg", registration);
+                    mngrName.setMaxAge(30*60);
+                    mngrReg.setMaxAge(30*60);
+                    response.addCookie(mngrName);
+                    response.addCookie(mngrReg);                             
                             
-                response.sendRedirect("ManagerArea.jsp");
-                
-        
+                    response.sendRedirect("ManagerArea.jsp");
+                }
+                                              
                 //request.getRequestDispatcher("ManagerArea.jsp").forward(request, response);
     }
 
@@ -80,31 +84,38 @@ public class manager extends HttpServlet {
                         request.getRequestDispatcher("LoginAdmin.jsp").forward(request, response);
                     }
                                                      
-                }else{
-                   
-                    manager.name = request.getParameter("name");
-                    manager.registration = request.getParameter("registration");
-                    manager.password = request.getParameter("password");
+                }else{                   
+                    HttpSession session =request.getSession();
+                    String registration = (String)session.getAttribute("reg");
+                                     
+                    
+                    if(registration != null){
+                        manager.name = request.getParameter("name");
+                        manager.registration = request.getParameter("registration");
+                        manager.password = request.getParameter("password");
                 
           
-                    //CADASTRAR GERENTE:
-                    if(openConnection){
-                        managerTbl.configConnection(db.getConnection());
+                        //CADASTRAR GERENTE:
+                        if(openConnection){
+                            managerTbl.configConnection(db.getConnection());
             
-                    //if(checkManager == 0){}
+                            //if(checkManager == 0){}
             
-                        boolean insert = managerTbl.insertManager(manager);
+                            boolean insert = managerTbl.insertManager(manager);
                 
-                        if(insert){
-                            db.closeConnection();
-                            response.sendRedirect("manager");
-                        }else{
-                            db.closeConnection();
-                            request.setAttribute("msg", "Erro ao cadastrar!");                     
-                            request.getRequestDispatcher("ManagerArea.jsp").forward(request, response);
-                        }
+                            if(insert){
+                                db.closeConnection();
+                                response.sendRedirect("manager");
+                            }else{
+                                db.closeConnection();
+                                request.setAttribute("msg", "Erro ao cadastrar!");                     
+                                request.getRequestDispatcher("ManagerArea.jsp").forward(request, response);
+                            }
             
-                    }
+                        }
+                    }else{
+                        response.sendRedirect("LoginAdmin.jsp");
+                    }                                                                                           
                 }                                                                   
     }
 
