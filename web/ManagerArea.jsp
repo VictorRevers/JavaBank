@@ -34,6 +34,7 @@
                     if(cookie.getName().equals("JSESSIONID")) sessionID = cookie.getValue();
                 }                            
                 System.out.println("ID DA SESSÃO: "+ sessionID);
+                System.out.println("ID DA SESSÃO VIA SESSION: "+ session.getId());
             }
             
         %>
@@ -41,7 +42,7 @@
             <ul>               
                 <li class="title"><p>Área do Gerente</p></li>
                 <li><p><%= name%> - <%= registration %></p></li>
-                <li><a href="/BankingTransfer">Sair</a></li>
+                <li><form id="logoutForm" method="POST" action="logout"><a id="logout">Sair</a></form></li>
                 <li onclick="showDiv(6)"><a>Cadastrar Gerente</a></li> 
                 <li><a>Fechamento de Conta</a></li> 
                 <li onclick="showDiv(4)"><a>Cadastrar Cliente</a></li>  
@@ -146,5 +147,13 @@
                 createClient.setAttribute("hidden", true);
             }
         }
+        
+        let logout = document.getElementById("logout");
+        
+        
+        logout.onclick = function(){
+            document.getElementById("logoutForm").submit();
+        }
+        
     </script>
 </html>

@@ -9,6 +9,7 @@
 .header a {
   float: left;
   color: black;
+  cursor: pointer;
   text-align: center;
   padding: 12px;
   text-decoration: none;

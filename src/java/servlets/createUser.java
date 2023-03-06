@@ -37,6 +37,8 @@ public class createUser extends HttpServlet {
                     //session.setAttribute("balance", user.balance);                  
                     session.setMaxInactiveInterval(30*60);
                     
+                                      
+                    
                     Cookie userName = new Cookie("name",user.name);
                     Cookie userBalance = new Cookie("balance", Double.toString(user.balance));
                     userName.setMaxAge(30*60);

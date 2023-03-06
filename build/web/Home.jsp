@@ -42,7 +42,7 @@
                 <p>Olá, <%= userName%>!</p>               
                 <div class="header-right">
                     <a class="active" href=>Configurações</a>
-                    <a href="/BankingTransfer">Sair</a>              
+                    <form id="logoutForm" method="POST" action="logout"><a id="logout">Sair</a></form>          
                 </div>
             </div>
         </header>
@@ -78,5 +78,14 @@
         
            
         <script src="./Assets/Js/shwHidTrans.js"></script>
+        <script>
+            let logout = document.getElementById("logout");
+        
+        
+            logout.onclick = function(){
+                document.getElementById("logoutForm").submit();
+            }
+            
+        </script>
     </body>
 </html>
