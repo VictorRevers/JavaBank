@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Cookie;
 import classes.Manager;
+import classes.Encrypt;
 import classes.User;
 import banco_dados.*;
+
 
 
 
@@ -20,6 +22,7 @@ import banco_dados.*;
 public class manager extends HttpServlet {
    conexaoBancoDados db = new conexaoBancoDados();
    ManagerTbl managerTbl = new ManagerTbl();
+   Encrypt encrypt = new Encrypt();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -63,7 +66,7 @@ public class manager extends HttpServlet {
                 //LOGIN MANAGER
                 if(login != null){
                    
-                    String password = request.getParameter("password");
+                    String password = encrypt.encrypt(request.getParameter("password"));
                     String registration = request.getParameter("registration");
                    
                     if(openConnection){
@@ -92,7 +95,7 @@ public class manager extends HttpServlet {
                     if(registration != null){
                         manager.name = request.getParameter("name");
                         manager.registration = request.getParameter("registration");
-                        manager.password = request.getParameter("password");
+                        manager.password = encrypt.encrypt(request.getParameter("password"));
                 
           
                         //CADASTRAR GERENTE:
