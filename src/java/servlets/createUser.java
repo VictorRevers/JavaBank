@@ -14,11 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Cookie;
+import classes.Encrypt;
 
 @WebServlet(name = "createUser", urlPatterns = {"/createUser"})
 public class createUser extends HttpServlet {
         conexaoBancoDados db = new conexaoBancoDados();      
         UserTbl userTbl = new UserTbl();
+        Encrypt encrypt = new Encrypt();
         
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -75,7 +77,7 @@ public class createUser extends HttpServlet {
                 //LOGIN
                 if(formOpt == 1){
                     String cpf = request.getParameter("cpf");
-                    String password = request.getParameter("password");                  
+                    String password = encrypt.encrypt(request.getParameter("password"));                  
                     
                     if(openConnection){
                         userTbl.configConnection(db.getConnection());
@@ -102,7 +104,7 @@ public class createUser extends HttpServlet {
                 if(formOpt == 2){                                  
                     user.cpf = request.getParameter("cpf");
                     user.name = request.getParameter("name");
-                    user.password = request.getParameter("password");                                                      
+                    user.password = encrypt.encrypt(request.getParameter("password"));                                                      
                                
                    if(openConnection){
                        userTbl.configConnection(db.getConnection());
